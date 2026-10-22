@@ -1,0 +1,148 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cusco 2026 · Calculadora de viaje</title>
+  <meta name="description" content="Calculadora de costos para el viaje en grupo Lima – Cusco, diciembre 2026.">
+  <meta name="theme-color" content="#C8102E">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23C8102E'/%3E%3Cpath d='M3 26 12 11l5 8 4-5 8 12z' fill='%23fff'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Reusable mountain divider -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="peaks" viewBox="0 0 600 30" preserveAspectRatio="none">
+      <path d="M0 29 L60 18 L95 24 L150 6 L190 20 L230 12 L280 26 L330 9 L370 2 L410 17 L455 11 L500 23 L545 14 L600 29" fill="none" stroke="currentColor" stroke-width="2" vector-effect="non-scaling-stroke" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="lang" role="group" aria-label="Idioma / Sprache">
+        <button type="button" data-lang="es" aria-pressed="true">ES</button>
+        <button type="button" data-lang="de" aria-pressed="false">DE</button>
+      </div>
+      <p class="kicker" data-i18n="kicker">Lima → Cusco · 7–13 dic 2026</p>
+      <h1 data-i18n="title">Calculadora de viaje a Cusco</h1>
+      <p class="lead" data-i18n="lead">Mueve los controles y mira cuánto cuesta el viaje para cada uno y para el grupo.</p>
+    </div>
+    <svg class="andes" viewBox="0 0 1440 140" preserveAspectRatio="none" aria-hidden="true">
+      <path fill="rgba(255,255,255,.25)" d="M0 140V92l70-30 60 26 90-62 70 44 80-58 95 70 70-40 85 52 100-80 90 66 70-34 95 48 90-58 85 60 75-28 75 34L1440 74V140z"/>
+      <path fill="#fff" d="M0 140v-30l90-34 70 30 100-46 80 40 70-24 110 52 90-48 80 30 120-62 90 54 80-22 100 40 90-36 80 26 120-30L1440 96V140z"/>
+    </svg>
+  </header>
+
+  <main class="layout">
+    <section class="inputs" aria-labelledby="h-inputs">
+      <h2 id="h-inputs" class="visually-hidden" data-i18n="inputsTitle">Datos del viaje</h2>
+
+      <div class="field">
+        <label for="people"><span data-i18n="people">Número de personas</span> <output id="peopleOut">4</output></label>
+        <input type="range" id="people" step="1">
+      </div>
+
+      <div class="field">
+        <label for="nights"><span data-i18n="nights">Noches</span> <output id="nightsOut">3</output></label>
+        <input type="range" id="nights" step="1">
+        <p class="note" id="daysNote"></p>
+      </div>
+
+      <svg class="divider" aria-hidden="true"><use href="#peaks"/></svg>
+
+      <div class="field">
+        <h3 data-i18n="flight">Vuelo ida y vuelta Lima–Cusco</h3>
+        <p class="note" id="flightNote"></p>
+        <label for="bags"><span data-i18n="bags">Personas con maleta facturada (10 kg)</span> <output id="bagsOut">0</output></label>
+        <input type="range" id="bags" step="1" min="0">
+        <p class="note" id="bagsNote"></p>
+      </div>
+
+      <svg class="divider" aria-hidden="true"><use href="#peaks"/></svg>
+
+      <div class="field">
+        <h3 data-i18n="stay">Airbnb (todo el grupo)</h3>
+        <p class="note" id="stayNote"></p>
+      </div>
+
+      <div class="field">
+        <h3 data-i18n="food">Comida</h3>
+        <p class="note" id="foodNote"></p>
+      </div>
+
+      <div class="field">
+        <h3 data-i18n="transport">Transporte local (taxis, traslados)</h3>
+        <p class="note" id="transportNote"></p>
+      </div>
+
+      <svg class="divider" aria-hidden="true"><use href="#peaks"/></svg>
+
+      <div class="field">
+        <h3 data-i18n="acts">Actividades</h3>
+        <p class="note" data-i18n="actsHint">Marca una actividad e ingresa su precio por persona.</p>
+        <div id="actList" class="acts"></div>
+      </div>
+
+      <figure class="photo-pair">
+        <img src="img/machu-picchu.jpg" width="960" height="640" loading="lazy" alt="Machu Picchu">
+        <img src="img/vinicunca.jpg" width="960" height="540" loading="lazy" alt="Vinicunca">
+      </figure>
+    </section>
+
+    <aside class="results" id="results" aria-live="polite">
+      <h2 data-i18n="results">Resultado</h2>
+      <div class="big">
+        <div class="big-item">
+          <span class="big-label" data-i18n="perPerson">Por persona</span>
+          <strong id="ppRange">–</strong>
+        </div>
+        <div class="big-item">
+          <span class="big-label" data-i18n="groupTotal">Total del grupo</span>
+          <strong id="totalRange">–</strong>
+        </div>
+      </div>
+      <h3 data-i18n="breakdown">Desglose por persona</h3>
+      <ul id="breakdown" class="breakdown"></ul>
+      <p class="note" id="rateNote"></p>
+
+      <div class="actions">
+        <label for="scName" class="visually-hidden" data-i18n="scName">Nombre del escenario</label>
+        <input type="text" id="scName" maxlength="60" autocomplete="off">
+        <button type="button" id="saveBtn" class="btn primary" data-i18n="save">Guardar escenario</button>
+        <button type="button" id="shareBtn" class="btn" data-i18n="share">Compartir</button>
+        <p class="status" id="status" role="status"></p>
+        <input type="text" id="shareUrl" class="share-url" readonly hidden aria-label="URL">
+      </div>
+    </aside>
+  </main>
+
+  <section class="scenarios" aria-labelledby="h-sc">
+    <svg class="divider" aria-hidden="true"><use href="#peaks"/></svg>
+    <h2 id="h-sc" data-i18n="scenarios">Escenarios guardados</h2>
+    <p class="note" id="scEmpty" data-i18n="noScenarios">Aún no hay escenarios guardados.</p>
+    <div id="scList" class="sc-list"></div>
+  </section>
+
+  <figure class="banner">
+    <img src="img/cusco-plaza.jpg" width="1280" height="439" loading="lazy" alt="Plaza de Armas, Cusco">
+  </figure>
+
+  <footer class="footer">
+    <p data-i18n="disclaimer">Precios estimados, sin garantía.</p>
+    <p><span data-i18n="photos">Fotos</span>:
+      <a href="https://commons.wikimedia.org/wiki/File:Machu_Picchu,_Peru.jpg" rel="noopener">Machu Picchu</a> – Pedro Szekely, <a href="https://creativecommons.org/licenses/by-sa/2.0/" rel="noopener">CC BY-SA 2.0</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Vinicunca_(Rainbow_Mountain).jpg" rel="noopener">Vinicunca</a> – Steve Fung, <a href="https://creativecommons.org/licenses/by-sa/4.0/" rel="noopener">CC BY-SA 4.0</a> ·
+      <a href="https://commons.wikimedia.org/wiki/File:Cusco_Plaza_de_Armas.jpg" rel="noopener">Plaza de Armas</a> – Sucram Yef, <a href="https://creativecommons.org/licenses/by/2.0/" rel="noopener">CC BY 2.0</a>
+      (Wikimedia Commons)</p>
+  </footer>
+
+  <div class="sticky-bar" id="stickyBar" aria-hidden="true">
+    <span data-i18n="perPerson">Por persona</span>
+    <strong id="stickyRange">–</strong>
+  </div>
+
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
