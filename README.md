@@ -8,7 +8,7 @@ Flug (inkl. Aufgabegepäck), Airbnb, Essen, Transport vor Ort und Aktivitäten.
 - Ergebnisse immer als Spanne (von – bis), gerundet auf 10 S/ bzw. 5 €
 - Szenarien speichern und vergleichen, Auswahl per Link teilen
 
-**Link:** https://USERNAME.github.io/cusco-trip-2026/
+**Link:** https://juan-carlos-ligera.github.io/cusco-trip-2026/
 
 ## Preise ändern
 
